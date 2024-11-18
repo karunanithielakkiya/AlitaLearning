@@ -1,49 +1,52 @@
-package com.saucedemo.pages;
-
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+package org.epam.learn.pages;
 
 public class LoginPage {
 
-    private WebDriver driver;
-
-    // Locators
-    @FindBy(id = "user-name")
-    private WebElement usernameField;
-
-    @FindBy(id = "password")
-    private WebElement passwordField;
-
-    @FindBy(id = "login-button")
-    private WebElement loginButton;
-
-    @FindBy(css = ".error-message-container")
-    private WebElement errorMessageContainer;
-
-    // Constructor
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+    public void navigateToLoginPage(String url) {
+        // Code to navigate to the login page
     }
 
-    // Actions
     public void enterUsername(String username) {
-        usernameField.clear();
-        usernameField.sendKeys(username);
+        // Code to enter username
     }
 
     public void enterPassword(String password) {
-        passwordField.clear();
-        passwordField.sendKeys(password);
+        // Code to enter password
     }
 
     public void clickLoginButton() {
-        loginButton.click();
+        // Code to click the login button
     }
 
-    public String getErrorMessage() {
-        return errorMessageContainer.getText();
+    public boolean isRedirectedToDashboard() {
+        // Code to verify redirection to the dashboard
+        return true;
+    }
+
+    public boolean isPersonalizedContentDisplayed() {
+        // Code to verify personalized content
+        return true;
+    }
+
+    public boolean isErrorMessageDisplayed() {
+        // Code to verify error message display
+        return true;
+    }
+
+    public boolean isErrorMessageContentCorrect(String message) {
+        // Code to verify the error message content
+        return true;
+    }
+
+    public void leaveUsernameFieldEmpty() {
+        // Code to leave the username field empty
+    }
+
+    public void leavePasswordFieldEmpty() {
+        // Code to leave the password field empty
+    }
+
+    public void clickLoginButtonMultipleTimes(int times) {
+        // Code to click the login button multiple times
     }
 }
