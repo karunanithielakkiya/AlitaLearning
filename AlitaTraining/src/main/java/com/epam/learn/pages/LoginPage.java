@@ -3,38 +3,50 @@ package com.epam.learn.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage {
+    WebDriver driver;
 
-    @FindBy(id = "login_credentials")
-    public WebElement loginIds;
-
-    @FindBy(className = "login_password")
-    public WebElement loginPwd;
-
-    @FindBy(id = "user-name")
-    private WebElement loginUser;
+    @FindBy(id = "username")
+    private WebElement usernameField;
 
     @FindBy(id = "password")
-    private WebElement loginPassword;
+    private WebElement passwordField;
 
-    @FindBy(id = "login-button")
-    private WebElement loginBtn;
+    @FindBy(id = "loginButton")
+    private WebElement loginButton;
 
-    @FindBy(xpath = "//a[@id='logout_sidebar_link']")
-    private WebElement logoutBtn;
+    @FindBy(id = "errorMessage")
+    private WebElement errorMessage;
 
-    @FindBy(xpath = "//button[@id='react-burger-menu-btn']")
-    private WebElement logoutMenu;
+    @FindBy(id = "dashboardContent")
+    private WebElement dashboardContent;
 
-    @FindBy(xpath = "//div[text()='Swag Labs']")
-    public WebElement homePageValidation;
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
 
-    @FindBy(xpath = "//span[text()='Products']")
-    public WebElement welcomePageText;
+    public void enterUsername(String username) {
+        usernameField.clear();
+        usernameField.sendKeys(username);
+    }
 
-    Wait<WebDriver> wait = null;
+    public void enterPassword(String password) {
+        passwordField.clear();
+        passwordField.sendKeys(password);
+    }
 
+    public void clickLoginButton() {
+        loginButton.click();
+    }
 
+    public String getErrorMessage() {
+        return errorMessage.getText();
+    }
+
+    public boolean isDashboardDisplayed() {
+        return dashboardContent.isDisplayed();
+    }
 }
