@@ -19,10 +19,12 @@ public class LoginPage {
 
     // Actions
     public void enterUsername(String username) {
+        driver.findElement(usernameField).clear();
         driver.findElement(usernameField).sendKeys(username);
     }
 
     public void enterPassword(String password) {
+        driver.findElement(passwordField).clear();
         driver.findElement(passwordField).sendKeys(password);
     }
 
