@@ -25,10 +25,11 @@ Feature: User Login Functionality
     And the error message should read "Invalid username or password."
 
     Examples:
-      | username     | password     |
-      | wrong_user   | ValidPass1!  |
-      | standard_user| wrongPass    |
-      | wrong_user   | wrongPass    |
+      | username     | password       |
+      | wrong_user   | WrongPass1!    |
+      | standard_user| wrongpass      |
+      |              | ValidPass1!    |
+      | standard_user|                |
 
   @passwordValidation
   Scenario Outline: Password validation rules
@@ -49,12 +50,6 @@ Feature: User Login Functionality
   @requiredFields
   Scenario: Required fields validation
     Given the user leaves the username field empty
-    And the user enters a valid password "ValidPass1!"
-    When the user clicks the login button
-    Then an error message should be displayed
-    And the error message should read "Both fields are required."
-
-    Given the user enters a valid username "standard_user"
     And the user leaves the password field empty
     When the user clicks the login button
     Then an error message should be displayed
@@ -62,8 +57,8 @@ Feature: User Login Functionality
 
   @loginAttemptLimit
   Scenario: Login attempt limit enforcement
-    Given the user enters an invalid username "wrong_user"
-    And the user enters an invalid password "wrongPass"
+    Given the user enters an invalid username "standard_user"
+    And the user enters an invalid password "WrongPass1!"
     When the user clicks the login button 5 times
     Then an error message should be displayed
     And the error message should read "Too many failed login attempts. Please try again after 30 minutes."
