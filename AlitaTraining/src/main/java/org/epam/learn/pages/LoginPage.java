@@ -1,40 +1,44 @@
-package org.epam.learn.pages;
+package com.example.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Wait;
 
 public class LoginPage {
+    private WebDriver driver;
 
-    @FindBy(id = "login_credentials")
-    public WebElement loginIds;
+    // Locators
+    private By usernameField = By.id("username");
+    private By passwordField = By.id("password");
+    private By loginButton = By.id("loginButton");
+    private By errorMessage = By.id("errorMessage");
+    private By dashboardContent = By.id("dashboardContent");
 
-    @FindBy(className = "login_password")
-    public WebElement loginPwd;
+    // Constructor
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+    }
 
-    @FindBy(id = "user-name")
-    private WebElement loginUser;
+    // Action Methods
+    public void enterUsername(String username) {
+        driver.findElement(usernameField).clear();
+        driver.findElement(usernameField).sendKeys(username);
+    }
 
-    @FindBy(id = "password")
-    private WebElement loginPassword;
+    public void enterPassword(String password) {
+        driver.findElement(passwordField).clear();
+        driver.findElement(passwordField).sendKeys(password);
+    }
 
-    @FindBy(id = "login-button")
-    private WebElement loginBtn;
+    public void clickLoginButton() {
+        driver.findElement(loginButton).click();
+    }
 
-    @FindBy(xpath = "//a[@id='logout_sidebar_link']")
-    private WebElement logoutBtn;
+    // Verification Methods
+    public boolean isErrorMessageDisplayed(String expectedMessage) {
+        return driver.findElement(errorMessage).getText().equals(expectedMessage);
+    }
 
-    @FindBy(xpath = "//button[@id='react-burger-menu-btn']")
-    private WebElement logoutMenu;
-
-    @FindBy(xpath = "//div[text()='Swag Labs']")
-    public WebElement homePageValidation;
-
-    @FindBy(xpath = "//span[text()='Products']")
-    public WebElement welcomePageText;
-
-    Wait<WebDriver> wait = null;
-
-
+    public boolean isDashboardDisplayed() {
+        return driver.findElement(dashboardContent).isDisplayed();
+    }
 }
