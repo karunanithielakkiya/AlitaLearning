@@ -39,5 +39,11 @@ public class LoginPage {
         passwordField.sendKeys(password);
     }
 
-   
+    public void clickLoginButton() {
+        loginButton.click();
+    }
+
+    public String getErrorMessage() {
+        return errorMessageContainer.getText();
+    }
 }
