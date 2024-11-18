@@ -54,9 +54,9 @@ public class LoginSteps {
         loginPage.clickLoginButton();
     }
 
-    @When("the user attempts to login {int} times")
-    public void the_user_attempts_to_login_times(Integer attempts) {
-        for (int i = 0; i < attempts; i++) {
+    @When("the user clicks the login button {int} times")
+    public void the_user_clicks_the_login_button_times(Integer times) {
+        for (int i = 0; i < times; i++) {
             loginPage.clickLoginButton();
         }
     }
