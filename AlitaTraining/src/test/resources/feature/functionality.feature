@@ -58,3 +58,62 @@ Feature: User Login Functionality for Saucedemo
     When the user clicks the login button 5 times
     Then an error message should be displayed
     And the error message should read "Too many failed login attempts. Please try again after 30 minutes."
+
+  @validLogin
+  Scenario Outline: Successful login with valid credentials
+    Given the login page is displayed
+    When the user enters a valid username "<username>" and a valid password "<password>"
+    And clicks the login button
+    Then the user should be redirected to the dashboard page
+    And the dashboard should display personalized content
+
+    Examples:
+      | username     | password       |
+      | validUser1   | ValidPass1!    |
+      | validUser2   | ValidPass2@    |
+
+  @invalidLogin
+  Scenario Outline: Unsuccessful login with invalid credentials
+    Given the login page is displayed
+    When the user enters an invalid username "<username>" or an invalid password "<password>"
+    And clicks the login button
+    Then an error message should be displayed with text "Invalid username or password."
+
+    Examples:
+      | username     | password       |
+      | invalidUser  | ValidPass1!    |
+      | validUser1   | invalidPass    |
+      | validUser2   | short1!        |
+      | validUser3   | NoSpecialChar1 |
+
+  @requiredFields
+  Scenario: Error message for empty required fields
+    Given the login page is displayed
+    When the user leaves the username field empty
+    And enters a valid password "ValidPass1!"
+    And clicks the login button
+    Then an error message should be displayed indicating that both fields are required
+
+    When the user enters a valid username "validUser1"
+    And leaves the password field empty
+    And clicks the login button
+    Then an error message should be displayed indicating that both fields are required
+
+  @loginAttemptLimit
+  Scenario: Lockout after too many failed login attempts
+    Given the login page is displayed
+    When the user enters invalid credentials "<username>" and "<password>" for 5 times
+    And clicks the login button
+    Then a message should be displayed with text "Too many failed login attempts. Please try again after 30 minutes."
+
+    Examples:
+      | username     | password       |
+      | invalidUser  | invalidPass    |
+
+  @successfulRedirect
+  Scenario: Successful login redirects to dashboard
+    Given the login page is displayed
+    When the user enters a valid username "validUser1" and a valid password "ValidPass1!"
+    And clicks the login button
+    Then the user should be redirected to the dashboard page
+    And the dashboard should display personalized content
