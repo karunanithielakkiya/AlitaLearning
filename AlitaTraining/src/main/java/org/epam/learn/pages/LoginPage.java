@@ -1,44 +1,48 @@
 package org.epam.learn.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage {
     private WebDriver driver;
 
     // Locators
-    private By usernameField = By.id("user-name");
-    private By passwordField = By.id("password");
-    private By loginButton = By.id("login-button");
-    private By errorMessage = By.cssSelector(".error-message-container");
+    @FindBy(id = "username")
+    private WebElement usernameField;
+
+    @FindBy(id = "password")
+    private WebElement passwordField;
+
+    @FindBy(id = "loginButton")
+    private WebElement loginButton;
+
+    @FindBy(id = "errorMessage")
+    private WebElement errorMessage;
 
     // Constructor
     public LoginPage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     // Actions
     public void enterUsername(String username) {
-        driver.findElement(usernameField).clear();
-        driver.findElement(usernameField).sendKeys(username);
+        usernameField.clear();
+        usernameField.sendKeys(username);
     }
 
     public void enterPassword(String password) {
-        driver.findElement(passwordField).clear();
-        driver.findElement(passwordField).sendKeys(password);
+        passwordField.clear();
+        passwordField.sendKeys(password);
     }
 
     public void clickLoginButton() {
-        driver.findElement(loginButton).click();
+        loginButton.click();
     }
 
     public String getErrorMessage() {
-        return driver.findElement(errorMessage).getText();
-    }
-
-    public boolean isDashboardDisplayed() {
-        // Implement logic to verify if the dashboard is displayed
-        // This could be checking for a specific element on the dashboard
-        return true; // Placeholder
+        return errorMessage.getText();
     }
 }
