@@ -67,3 +67,48 @@ Feature: User Login Functionality
     When the user clicks the login button 5 times
     Then an error message should be displayed
     And the error message should read "Too many failed login attempts. Please try again after 30 minutes."
+
+  @positive
+  Scenario: Successful login with valid credentials
+    Given the user is on the login page
+    When the user enters a valid username "standard_user" and password "secret_sauce"
+    And clicks the login button
+    Then the user should be redirected to the dashboard page
+
+  @negative
+  Scenario Outline: Unsuccessful login with invalid credentials
+    Given the user is on the login page
+    When the user enters an invalid username "<username>" or password "<password>"
+    And clicks the login button
+    Then an error message "Invalid username or password." should be displayed
+    Examples:
+      | username       | password     |
+      | invalid_user   | secret_sauce |
+      | standard_user  | wrong_pass   |
+      | invalid_user   | wrong_pass   |
+
+  @negative
+  Scenario: Password requirements validation
+    Given the user is on the login page
+    When the user enters a password with less than 8 characters "short"
+    And enters a valid username "standard_user"
+    And clicks the login button
+    Then an error message should be displayed indicating password requirements
+
+  @negative
+  Scenario: Required fields validation
+    Given the user is on the login page
+    When the user submits the login form with empty username or password
+    Then an error message should be displayed indicating that both fields are required
+
+  @negative
+  Scenario: Lockout after multiple failed login attempts
+    Given the user is on the login page
+    When the user enters invalid credentials 5 times with username "standard_user" and password "wrong_pass"
+    Then a message "Too many failed login attempts. Please try again after 30 minutes." should be displayed
+
+  @positive
+  Scenario: Successful login redirect
+    Given the user is on the login page
+    When the user logs in successfully with username "standard_user" and password "secret_sauce"
+    Then the dashboard should display personalized content based on the user's profile
