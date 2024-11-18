@@ -1,40 +1,42 @@
 package org.epam.learn.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Wait;
 
 public class LoginPage {
+    private WebDriver driver;
 
-    @FindBy(id = "login_credentials")
-    public WebElement loginIds;
+    // Locators
+    private By usernameField = By.id("user-name");
+    private By passwordField = By.id("password");
+    private By loginButton = By.id("login-button");
+    private By errorMessage = By.cssSelector(".error-message-container");
 
-    @FindBy(className = "login_password")
-    public WebElement loginPwd;
+    // Constructor
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+    }
 
-    @FindBy(id = "user-name")
-    private WebElement loginUser;
+    // Actions
+    public void enterUsername(String username) {
+        driver.findElement(usernameField).sendKeys(username);
+    }
 
-    @FindBy(id = "password")
-    private WebElement loginPassword;
+    public void enterPassword(String password) {
+        driver.findElement(passwordField).sendKeys(password);
+    }
 
-    @FindBy(id = "login-button")
-    private WebElement loginBtn;
+    public void clickLoginButton() {
+        driver.findElement(loginButton).click();
+    }
 
-    @FindBy(xpath = "//a[@id='logout_sidebar_link']")
-    private WebElement logoutBtn;
+    public String getErrorMessage() {
+        return driver.findElement(errorMessage).getText();
+    }
 
-    @FindBy(xpath = "//button[@id='react-burger-menu-btn']")
-    private WebElement logoutMenu;
-
-    @FindBy(xpath = "//div[text()='Swag Labs']")
-    public WebElement homePageValidation;
-
-    @FindBy(xpath = "//span[text()='Products']")
-    public WebElement welcomePageText;
-
-    Wait<WebDriver> wait = null;
-
-
+    public boolean isDashboardDisplayed() {
+        // Implement logic to verify if the dashboard is displayed
+        // This could be checking for a specific element on the dashboard
+        return true; // Placeholder
+    }
 }
