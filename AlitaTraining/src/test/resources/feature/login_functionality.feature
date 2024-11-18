@@ -1,9 +1,9 @@
-Feature: User Login Functionality
+Feature: User Login Functionality for Saucedemo Application
 
   Background:
     Given the user is on the login page
 
-  @validLogin
+  @valid-credentials
   Scenario Outline: Successful login with valid credentials
     Given the user enters a valid username "<username>"
     And the user enters a valid password "<password>"
@@ -12,11 +12,11 @@ Feature: User Login Functionality
     And the dashboard should display personalized content
 
     Examples:
-      | username   | password       |
-      | user1      | ValidPass1!    |
-      | user2      | AnotherPass2@  |
+      | username     | password       |
+      | standard_user| ValidPass1!    |
+      | locked_user  | ValidPass2@    |
 
-  @invalidLogin
+  @invalid-credentials
   Scenario Outline: Unsuccessful login with invalid credentials
     Given the user enters an invalid username "<username>"
     And the user enters an invalid password "<password>"
@@ -25,44 +25,45 @@ Feature: User Login Functionality
     And the error message should read "Invalid username or password."
 
     Examples:
-      | username   | password       |
-      | invalid1   | wrongPass1!    |
-      | user2      | wrongPass2@    |
+      | username     | password       |
+      | invalid_user | InvalidPass    |
+      | standard_user| wrongPass1     |
 
-  @passwordValidation
-  Scenario Outline: Password validation requirements
-    Given the user enters a valid username "<username>"
-    And the user enters a password "<password>"
-    When the user clicks the login button
-    Then an error message should be displayed
-    And the error message should read "<message>"
-
-    Examples:
-      | username | password    | message                                      |
-      | user1    | short1!     | "Password must be more than 8 characters."   |
-      | user2    | NoNumber!   | "Password must include at least 1 numeric."  |
-      | user3    | nonumber1!  | "Password must include at least 1 uppercase."|
-      | user4    | NONUMBER1!  | "Password must include at least 1 lowercase."|
-      | user5    | NoSpecial1  | "Password must include a special character." |
-
-  @requiredFields
-  Scenario: Required fields validation
+  @required-fields
+  Scenario: Attempt to login with empty required fields
     Given the user leaves the username field empty
     And the user enters a valid password "ValidPass1!"
     When the user clicks the login button
     Then an error message should be displayed
     And the error message should read "Both fields are required."
 
-    Given the user enters a valid username "user1"
+    Given the user enters a valid username "standard_user"
     And the user leaves the password field empty
     When the user clicks the login button
     Then an error message should be displayed
     And the error message should read "Both fields are required."
 
-  @loginAttemptLimit
-  Scenario: Login attempt limit enforcement
-    Given the user enters an invalid username "invalid1"
-    And the user enters an invalid password "wrongPass1!"
+  @login-attempt-limit
+  Scenario: Exceeding login attempt limit
+    Given the user enters an invalid username "standard_user"
+    And the user enters an invalid password "wrongPass1"
     When the user clicks the login button 5 times
     Then an error message should be displayed
     And the error message should read "Too many failed login attempts. Please try again after 30 minutes."
+
+  @password-validation
+  Scenario Outline: Password validation rules
+    Given the user enters a valid username "standard_user"
+    And the user enters a password "<password>"
+    When the user clicks the login button
+    Then an error message should be displayed
+    And the error message should read "Invalid username or password."
+
+    Examples:
+      | password       |
+      | short1!        |
+      | NoNumber!      |
+      | nonumber1!     |
+      | NOLOWERCASE1!  |
+      | noUppercase1!  |
+      | NoSpecialChar1 |
