@@ -8,20 +8,17 @@ import org.openqa.selenium.support.PageFactory;
 public class LoginPage {
     WebDriver driver;
 
-    @FindBy(id = "username")
-    private WebElement usernameField;
+    @FindBy(id = "user-name")
+    WebElement usernameField;
 
     @FindBy(id = "password")
-    private WebElement passwordField;
+    WebElement passwordField;
 
-    @FindBy(id = "loginButton")
-    private WebElement loginButton;
+    @FindBy(id = "login-button")
+    WebElement loginButton;
 
-    @FindBy(id = "errorMessage")
-    private WebElement errorMessage;
-
-    @FindBy(id = "dashboardContent")
-    private WebElement dashboardContent;
+    @FindBy(css = ".error-message-container")
+    WebElement errorMessageContainer;
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -43,10 +40,6 @@ public class LoginPage {
     }
 
     public String getErrorMessage() {
-        return errorMessage.getText();
-    }
-
-    public boolean isDashboardDisplayed() {
-        return dashboardContent.isDisplayed();
+        return errorMessageContainer.getText();
     }
 }
