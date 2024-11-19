@@ -3,6 +3,7 @@ package com.epam.learn.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Wait;
 
 public class LoginPage {
@@ -36,5 +37,32 @@ public class LoginPage {
 
     Wait<WebDriver> wait = null;
 
+    WebDriver driver;
+
+    @FindBy(css = ".error-message-container")
+    WebElement errorMessageContainer;
+
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+
+    public void enterUsername(String username) {
+        loginUser.clear();
+        loginUser.sendKeys(username);
+    }
+
+    public void enterPassword(String password) {
+        loginPassword.clear();
+        loginPassword.sendKeys(password);
+    }
+
+    public void clickLoginButton() {
+        loginBtn.click();
+    }
+
+    public String getErrorMessage() {
+        return errorMessageContainer.getText();
+    }
 
 }
