@@ -53,17 +53,16 @@ public void enterUsername(String username) {
 
     public String getErrorMessage() {
         // Implement logic to get error message
-        return ""; // Placeholder
+        return errorMessageContainer.getText();
     }
 
     public boolean isDashboardDisplayed() {
         // Implement logic to verify if the dashboard is displayed
-        // This could be checking for a specific element on the dashboard
-        return true; // Placeholder
+        return dashboardContent.isDisplayed();
     }
 
     public boolean isPersonalizedContentDisplayed() {
         // Implement logic to verify if personalized content is displayed
-        return true; // Placeholder
+        return dashboardContent.isDisplayed();
     }
 }
