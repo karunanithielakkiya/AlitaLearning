@@ -3,30 +3,30 @@ Feature: Login functionality of saucedemo application
   @positive
   Scenario: Successful login with valid credentials
     Given the user is on the login page
-    When the user enters a valid username "standard_user" and password "secret_sauce"
+    When the user enters a valid username and password
     And clicks the login button
     Then the user should be redirected to the dashboard page
 
   @negative
   Scenario: Unsuccessful login with invalid credentials
     Given the user is on the login page
-    When the user enters an invalid username "invalid_user" or password "wrong_password"
+    When the user enters an invalid username or password
     And clicks the login button
     Then an error message "Invalid username or password." should be displayed
 
   @negative
-  Scenario: Password validation
+  Scenario Outline: Password requirements validation
     Given the user is on the login page
-    When the user enters a password "short" with less than 8 characters
-    Then an error message "Password must be at least 8 characters long." should be displayed
-    When the user enters a password "nouppercase1!" without an uppercase letter
-    Then an error message "Password must contain at least one uppercase letter." should be displayed
-    When the user enters a password "NOLOWERCASE1!" without a lowercase letter
-    Then an error message "Password must contain at least one lowercase letter." should be displayed
-    When the user enters a password "NoSpecialChar" without a special character
-    Then an error message "Password must contain at least one special character." should be displayed
-    When the user enters a password "NoNumber!" without a numeric character
-    Then an error message "Password must contain at least one numeric character." should be displayed
+    When the user enters a password "<password>"
+    Then an error message "<error_message>" should be displayed
+
+    Examples:
+      | password          | error_message                                      |
+      | short             | "Password must be at least 8 characters long."     |
+      | noUppercase       | "Password must contain at least one uppercase letter." |
+      | noLowercase       | "Password must contain at least one lowercase letter." |
+      | noNumeric         | "Password must contain at least one numeric character." |
+      | noSpecialChar     | "Password must contain at least one special character." |
 
   @negative
   Scenario: Required fields validation
