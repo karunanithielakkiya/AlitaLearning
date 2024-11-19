@@ -37,6 +37,16 @@ public class LoginSteps {
         loginPage.enterPassword(password);
     }
 
+    @When("the user submits the login form with an empty {string}")
+    public void theUserSubmitsTheLoginFormWithAnEmptyField(String field) {
+        if (field.equals("username")) {
+            loginPage.enterUsername("");
+        } else if (field.equals("password")) {
+            loginPage.enterPassword("");
+        }
+        loginPage.clickLoginButton();
+    }
+
     @When("clicks the login button")
     public void clicksTheLoginButton() {
         loginPage.clickLoginButton();
@@ -44,30 +54,20 @@ public class LoginSteps {
 
     @Then("the user should be redirected to the dashboard page")
     public void theUserShouldBeRedirectedToTheDashboardPage() {
-        // Assuming the dashboard page URL is known
-        Assert.assertEquals("https://www.saucedemo.com/inventory.html", driver.getCurrentUrl());
-        driver.quit();
+        Assert.assertTrue("User is not on the dashboard page", loginPage.isOnDashboardPage());
     }
 
     @Then("an error message {string} should be displayed")
     public void anErrorMessageShouldBeDisplayed(String expectedMessage) {
         String actualMessage = loginPage.getErrorMessage();
-        Assert.assertEquals(expectedMessage, actualMessage);
-        driver.quit();
-    }
-
-    @When("the user submits the login form with empty username or password")
-    public void theUserSubmitsTheLoginFormWithEmptyUsernameOrPassword() {
-        loginPage.enterUsername("");
-        loginPage.enterPassword("");
-        loginPage.clickLoginButton();
+        Assert.assertEquals("Error message does not match", expectedMessage, actualMessage);
     }
 
     @When("the user enters invalid credentials 5 times")
-    public void theUserEntersInvalidCredentials5Times() {
+    public void theUserEntersInvalidCredentialsFiveTimes() {
         for (int i = 0; i < 5; i++) {
             loginPage.enterUsername("invalid_user");
-            loginPage.enterPassword("wrong_password");
+            loginPage.enterPassword("wrong_pass");
             loginPage.clickLoginButton();
         }
     }
@@ -75,7 +75,6 @@ public class LoginSteps {
     @Then("a message {string} should be displayed")
     public void aMessageShouldBeDisplayed(String expectedMessage) {
         String actualMessage = loginPage.getErrorMessage();
-        Assert.assertEquals(expectedMessage, actualMessage);
-        driver.quit();
+        Assert.assertEquals("Message does not match", expectedMessage, actualMessage);
     }
 }
