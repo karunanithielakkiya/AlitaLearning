@@ -1,4 +1,4 @@
-package com.epam.learn.runner;
+package com.saucedemo.runner;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
