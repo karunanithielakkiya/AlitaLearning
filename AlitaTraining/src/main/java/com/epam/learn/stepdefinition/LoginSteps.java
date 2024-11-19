@@ -1,15 +1,16 @@
-package com.saucedemo.automation;
+package com.saucedemo.automation.steps;
 
+import com.saucedemo.automation.pages.LoginPage;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.junit.Assert;
 
 public class LoginSteps {
-    private WebDriver driver;
-    private LoginPage loginPage;
+    WebDriver driver;
+    LoginPage loginPage;
 
     @Given("the user is on the login page")
     public void the_user_is_on_the_login_page() {
@@ -42,7 +43,7 @@ public class LoginSteps {
 
     @Then("the user should be redirected to the dashboard page")
     public void the_user_should_be_redirected_to_the_dashboard_page() {
-        Assert.assertTrue(driver.getCurrentUrl().contains("inventory.html"));
+        Assert.assertEquals("https://www.saucedemo.com/inventory.html", driver.getCurrentUrl());
     }
 
     @Then("an error message {string} should be displayed")
@@ -50,18 +51,30 @@ public class LoginSteps {
         Assert.assertEquals(expectedMessage, loginPage.getErrorMessage());
     }
 
+    @Then("an error message {string} should be displayed indicating password requirements")
+    public void an_error_message_should_be_displayed_indicating_password_requirements(String expectedMessage) {
+        Assert.assertEquals(expectedMessage, loginPage.getErrorMessage());
+    }
+
+    @When("the user attempts to submit the login form with an empty username")
+    public void the_user_attempts_to_submit_the_login_form_with_an_empty_username() {
+        loginPage.enterUsername("");
+        loginPage.clickLoginButton();
+    }
+
     @Then("an error message should be displayed indicating that the username is required")
     public void an_error_message_should_be_displayed_indicating_that_the_username_is_required() {
         Assert.assertEquals("Username is required", loginPage.getErrorMessage());
     }
 
-    @Then("an error message should be displayed indicating that the password is required")
-    public void an_error_message_should_be_displayed_indicating_that_the_password is_required() {
-        Assert.assertEquals("Password is required", loginPage.getErrorMessage());
+    @When("the user attempts to submit the login form with an empty password")
+    public void the_user_attempts_to_submit_the_login_form_with_an_empty_password() {
+        loginPage.enterPassword("");
+        loginPage.clickLoginButton();
     }
 
-    @Then("the user should be locked out with a message {string}")
-    public void the_user_should_be_locked_out_with_a_message(String expectedMessage) {
-        Assert.assertEquals(expectedMessage, loginPage.getErrorMessage());
+    @Then("an error message should be displayed indicating that the password is required")
+    public void an_error_message_should_be_displayed_indicating_that_the_password_is_required() {
+        Assert.assertEquals("Password is required", loginPage.getErrorMessage());
     }
 }
