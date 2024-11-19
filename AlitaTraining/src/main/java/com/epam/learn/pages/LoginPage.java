@@ -27,7 +27,8 @@ public class LoginPage {
     }
 
     public void enterUsername(String username) {
-        usernameField.sendKeys(username);
+        usernameField.clear();
+usernameField.sendKeys(username);
     }
 
     public void enterPassword(String password) {
