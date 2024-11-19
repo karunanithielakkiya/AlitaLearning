@@ -1,6 +1,6 @@
 package com.epam.learn.stepdefinition;
 
-import com.epam.learn.pages.LoginPage;
+import com.epam.learn.page.LoginPage;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -13,8 +13,8 @@ public class LoginSteps {
     private WebDriver driver;
     private LoginPage loginPage;
 
-    @Given("the user is on the login page at {string}")
-    public void the_user_is_on_the_login_page_at(String url) {
+    @Given("the user is on the login page {string}")
+    public void the_user_is_on_the_login_page(String url) {
         driver = new ChromeDriver();
         driver.get(url);
         loginPage = new LoginPage(driver);
