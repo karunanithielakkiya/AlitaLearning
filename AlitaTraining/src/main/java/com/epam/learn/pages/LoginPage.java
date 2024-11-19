@@ -7,7 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage {
 
-    WebDriver driver;
+    private WebDriver driver;
 
     @FindBy(id = "user-name")
     private WebElement usernameField;
@@ -19,7 +19,7 @@ public class LoginPage {
     private WebElement loginButton;
 
     @FindBy(css = ".error-message-container")
-    private WebElement errorMessage;
+    private WebElement errorMessageContainer;
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -41,6 +41,6 @@ public class LoginPage {
     }
 
     public String getErrorMessage() {
-        return errorMessage.getText();
+        return errorMessageContainer.getText();
     }
 }
