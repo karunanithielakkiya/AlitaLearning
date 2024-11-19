@@ -41,3 +41,5 @@ public class LoginPage {
         return errorMessage.getText();
     }
 }
+
+// Additional methods or updates can be added here if needed
