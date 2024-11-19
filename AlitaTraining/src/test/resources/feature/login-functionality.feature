@@ -17,19 +17,30 @@ Feature: Login functionality of the saucedemo application
     And the error message should read "Invalid username or password."
 
   @negative
-  Scenario: Password requirements validation
+  Scenario Outline: Password requirements validation
     Given the user is on the login page
-    When the user enters a password with less than 8 characters
+    When the user enters a password "<password>"
     And clicks the login button
-    Then an error message should be displayed
-    And the error message should indicate password requirements
+    Then an error message should be displayed indicating password requirements
+
+    Examples:
+      | password          |
+      | short             | # less than 8 characters
+      | noUppercase1!     | # without an uppercase letter
+      | NOLOWERCASE1!     | # without a lowercase letter
+      | NoNumber!         | # without a numeric character
+      | NoSpecialChar1    | # without a special character
 
   @negative
-  Scenario: Required fields validation
+  Scenario Outline: Required fields validation
     Given the user is on the login page
-    When the user submits the login form with empty username or password
-    Then an error message should be displayed
-    And the error message should indicate that both fields are required
+    When the user attempts to submit the login form with an empty "<field>"
+    Then an error message should be displayed indicating that the "<field>" is required
+
+    Examples:
+      | field    |
+      | username |
+      | password |
 
   @negative
   Scenario: Lockout after multiple failed login attempts
