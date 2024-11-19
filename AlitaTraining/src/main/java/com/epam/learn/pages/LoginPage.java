@@ -34,6 +34,32 @@ public class LoginPage {
     @FindBy(xpath = "//span[text()='Products']")
     public WebElement welcomePageText;
 
+    @FindBy(css = ".error-message-container")
+    private WebElement errorMessageContainer;
+
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+
+    public void enterUsername(String username) {
+        usernameField.clear();
+        usernameField.sendKeys(username);
+    }
+
+    public void enterPassword(String password) {
+        passwordField.clear();
+        passwordField.sendKeys(password);
+    }
+
+    public void clickLoginButton() {
+        loginButton.click();
+    }
+
+    public String getErrorMessage() {
+        return errorMessageContainer.getText();
+    }
+
     Wait<WebDriver> wait = null;
 
 
