@@ -3,36 +3,20 @@ package com.epam.learn.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage {
 
-    @FindBy(id = "login_credentials")
-    public WebElement loginIds;
-
-    @FindBy(className = "login_password")
-    public WebElement loginPwd;
+    private WebDriver driver;
 
     @FindBy(id = "user-name")
-    private WebElement loginUser;
+    private WebElement usernameField;
 
     @FindBy(id = "password")
-    private WebElement loginPassword;
+    private WebElement passwordField;
 
     @FindBy(id = "login-button")
-    private WebElement loginBtn;
-
-    @FindBy(xpath = "//a[@id='logout_sidebar_link']")
-    private WebElement logoutBtn;
-
-    @FindBy(xpath = "//button[@id='react-burger-menu-btn']")
-    private WebElement logoutMenu;
-
-    @FindBy(xpath = "//div[text()='Swag Labs']")
-    public WebElement homePageValidation;
-
-    @FindBy(xpath = "//span[text()='Products']")
-    public WebElement welcomePageText;
+    private WebElement loginButton;
 
     @FindBy(css = ".error-message-container")
     private WebElement errorMessageContainer;
@@ -60,7 +44,9 @@ public class LoginPage {
         return errorMessageContainer.getText();
     }
 
-    Wait<WebDriver> wait = null;
-
-
+    public boolean isOnDashboardPage() {
+        // Implement logic to verify if the user is on the dashboard page
+        // This could be checking for a specific element that only appears on the dashboard
+        return driver.getCurrentUrl().contains("dashboard");
+    }
 }
