@@ -61,3 +61,51 @@ Feature: User Login Functionality for Saucedemo Application
     When the user attempts to login 5 times
     Then an error message should be displayed
     And the error message should read "Too many failed login attempts. Please try again after 30 minutes."
+
+  @positive
+  Scenario: Successful login with valid credentials
+    Given the user is on the login page
+    When the user enters a valid username and password
+    And clicks the login button
+    Then the user should be redirected to the dashboard page
+
+  @negative
+  Scenario Outline: Unsuccessful login with invalid credentials
+    Given the user is on the login page
+    When the user enters an invalid <username> or <password>
+    And clicks the login button
+    Then an error message "<message>" should be displayed
+
+    Examples:
+      | username   | password   | message                          |
+      | invalidUser| validPass  | Invalid username or password.    |
+      | validUser  | invalidPass| Invalid username or password.    |
+      | invalidUser| invalidPass| Invalid username or password.    |
+
+  @negative
+  Scenario Outline: Password validation
+    Given the user is on the login page
+    When the user enters a password "<password>"
+    Then an error message "<message>" should be displayed indicating password requirements
+
+    Examples:
+      | password   | message                                      |
+      | short      | Password must be at least 8 characters long. |
+      | noUpper    | Password must contain at least one uppercase letter. |
+      | noLower    | Password must contain at least one lowercase letter. |
+      | noNumber   | Password must contain at least one numeric character. |
+      | noSpecial  | Password must contain at least one special character. |
+
+  @negative
+  Scenario: Required fields validation
+    Given the user is on the login page
+    When the user attempts to submit the login form with an empty username
+    Then an error message should be displayed indicating that the username is required
+    When the user attempts to submit the login form with an empty password
+    Then an error message should be displayed indicating that the password is required
+
+  @negative
+  Scenario: Login attempt limit
+    Given the user is on the login page
+    When the user enters invalid credentials 5 times
+    Then the user should be locked out with a message "Too many failed login attempts. Please try again after 30 minutes."
