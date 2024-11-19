@@ -1,25 +1,24 @@
-package com.saucedemo.automation;
+package com.saucedemo.automation.pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.junit.Assert;
 
 public class LoginPage {
-    private WebDriver driver;
+    WebDriver driver;
 
     @FindBy(id = "user-name")
-    private WebElement usernameField;
+    WebElement usernameField;
 
     @FindBy(id = "password")
-    private WebElement passwordField;
+    WebElement passwordField;
 
     @FindBy(id = "login-button")
-    private WebElement loginButton;
+    WebElement loginButton;
 
     @FindBy(css = ".error-message-container")
-    private WebElement errorMessageContainer;
+    WebElement errorMessageContainer;
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -27,12 +26,10 @@ public class LoginPage {
     }
 
     public void enterUsername(String username) {
-        usernameField.clear();
         usernameField.sendKeys(username);
     }
 
     public void enterPassword(String password) {
-        passwordField.clear();
         passwordField.sendKeys(password);
     }
 
