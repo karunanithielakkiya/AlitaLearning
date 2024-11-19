@@ -17,7 +17,7 @@ public class LoginSteps {
 
     @Before
     public void setUp() {
-        // Initialize WebDriver
+        // Initialize WebDriver (Assuming ChromeDriver is set in system path)
         driver = new ChromeDriver();
         loginPage = new LoginPage(driver);
     }
@@ -25,71 +25,82 @@ public class LoginSteps {
     @After
     public void tearDown() {
         // Close the browser
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     @Given("the user is on the login page")
-    public void the_user_is_on_the_login_page() {
+    public void theUserIsOnTheLoginPage() {
         driver.get("https://www.saucedemo.com/");
     }
 
-    @When("the user enters a valid username and password")
-    public void the_user_enters_a_valid_username_and_password(io.cucumber.datatable.DataTable dataTable) {
-        String username = dataTable.cell(1, 0);
-        String password = dataTable.cell(1, 1);
+    @When("the user enters a valid username {string} and password {string}")
+    public void theUserEntersAValidUsernameAndPassword(String username, String password) {
         loginPage.enterUsername(username);
         loginPage.enterPassword(password);
     }
 
-    @When("the user enters an invalid username or password")
-    public void the_user_enters_an_invalid_username_or_password(io.cucumber.datatable.DataTable dataTable) {
-        for (int i = 1; i < dataTable.height(); i++) {
-            String username = dataTable.cell(i, 0);
-            String password = dataTable.cell(i, 1);
-            loginPage.enterUsername(username);
-            loginPage.enterPassword(password);
+    @When("the user enters an invalid username {string} or password {string}")
+    public void theUserEntersAnInvalidUsernameOrPassword(String username, String password) {
+        loginPage.enterUsername(username);
+        loginPage.enterPassword(password);
+    }
+
+    @When("the user enters a password {string} with less than 8 characters")
+    public void theUserEntersAPasswordWithLessThan8Characters(String password) {
+        loginPage.enterPassword(password);
+    }
+
+    @When("the user enters a password {string} without an uppercase letter")
+    public void theUserEntersAPasswordWithoutAnUppercaseLetter(String password) {
+        loginPage.enterPassword(password);
+    }
+
+    @When("the user enters a password {string} without a lowercase letter")
+    public void theUserEntersAPasswordWithoutALowercaseLetter(String password) {
+        loginPage.enterPassword(password);
+    }
+
+    @When("the user enters a password {string} without a special character")
+    public void theUserEntersAPasswordWithoutASpecialCharacter(String password) {
+        loginPage.enterPassword(password);
+    }
+
+    @When("the user enters a password {string} without a numeric character")
+    public void theUserEntersAPasswordWithoutANumericCharacter(String password) {
+        loginPage.enterPassword(password);
+    }
+
+    @When("the user submits the login form with empty username or password")
+    public void theUserSubmitsTheLoginFormWithEmptyUsernameOrPassword() {
+        loginPage.enterUsername("");
+        loginPage.enterPassword("");
+        loginPage.clickLoginButton();
+    }
+
+    @When("the user enters invalid credentials 5 times")
+    public void theUserEntersInvalidCredentials5Times() {
+        for (int i = 0; i < 5; i++) {
+            loginPage.enterUsername("invalid_user");
+            loginPage.enterPassword("wrong_password");
             loginPage.clickLoginButton();
         }
     }
 
-    @When("the user enters a password with less than 8 characters")
-    public void the_user_enters_a_password_with_less_than_8_characters(io.cucumber.datatable.DataTable dataTable) {
-        String password = dataTable.cell(1, 0);
-        loginPage.enterPassword(password);
-    }
-
-    @When("the user enters a password without an uppercase letter")
-    public void the_user_enters_a_password_without_an_uppercase_letter(io.cucumber.datatable.DataTable dataTable) {
-        String password = dataTable.cell(1, 0);
-        loginPage.enterPassword(password);
-    }
-
-    @When("the user enters a password without a lowercase letter")
-    public void the_user_enters_a_password_without_a_lowercase_letter(io.cucumber.datatable.DataTable dataTable) {
-        String password = dataTable.cell(1, 0);
-        loginPage.enterPassword(password);
-    }
-
-    @When("the user enters a password without a numeric character")
-    public void the_user_enters_a_password_without_a_numeric_character(io.cucumber.datatable.DataTable dataTable) {
-        String password = dataTable.cell(1, 0);
-        loginPage.enterPassword(password);
-    }
-
-    @When("the user enters a password without a special character")
-    public void the_user_enters_a_password_without_a_special_character(io.cucumber.datatable.DataTable dataTable) {
-        String password = dataTable.cell(1, 0);
-        loginPage.enterPassword(password);
-    }
-
-    @When("the user submits the login form with an empty username")
-    public void the_user_submits_the_login_form_with_an_empty_username(io.cucumber.datatable.DataTable dataTable) {
-        String username = dataTable.cell(1, 0);
-        String password = dataTable.cell(1, 1);
-        loginPage.enterUsername(username);
-        loginPage.enterPassword(password);
+    @When("clicks the login button")
+    public void clicksTheLoginButton() {
         loginPage.clickLoginButton();
     }
 
-    @When("the user submits the login form with an empty password")
-    public void the_user_submits
+    @Then("the user should be redirected to the dashboard page")
+    public void theUserShouldBeRedirectedToTheDashboardPage() {
+        // Assuming the dashboard page URL is known
+        Assert.assertEquals("https://www.saucedemo.com/inventory.html", driver.getCurrentUrl());
+    }
+
+    @Then("an error message {string} should be displayed")
+    public void anErrorMessageShouldBeDisplayed(String expectedMessage) {
+        Assert.assertEquals(expectedMessage, loginPage.getErrorMessage());
+    }
+}
