@@ -37,4 +37,33 @@ public class LoginPage {
     Wait<WebDriver> wait = null;
 
 
+public void enterUsername(String username) {
+        loginUser.clear();
+        loginUser.sendKeys(username);
+    }
+
+    public void enterPassword(String password) {
+        loginPassword.clear();
+        loginPassword.sendKeys(password);
+    }
+
+    public void clickLoginButton() {
+        loginBtn.click();
+    }
+
+    public String getErrorMessage() {
+        // Implement logic to get error message
+        return ""; // Placeholder
+    }
+
+    public boolean isDashboardDisplayed() {
+        // Implement logic to verify if the dashboard is displayed
+        // This could be checking for a specific element on the dashboard
+        return true; // Placeholder
+    }
+
+    public boolean isPersonalizedContentDisplayed() {
+        // Implement logic to verify if personalized content is displayed
+        return true; // Placeholder
+    }
 }
