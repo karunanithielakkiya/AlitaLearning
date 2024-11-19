@@ -1,4 +1,4 @@
-package com.saucedemo.pages;
+package com.epam.learn.pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
